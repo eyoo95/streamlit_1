@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
+import plotly.express as px
 
 def main():
     # 스트림릿에서 제공해주는 line_chart, area_chart
@@ -35,6 +36,32 @@ def main():
     )
 
     st.altair_chart(alt_chart)
+
+
+    # 스트림릿의 map차트
+    df3 = pd.read_csv('data2/location.csv',index_col=0)
+    st.dataframe(df3)
+
+    # 위도 경도가 적혀져 있으면 map을 통해서 지도를 그릴수있다.
+
+    st.map(df3)
+
+
+    # plotly 라이브러리를 이용한 차트
+    # 설치 되지 않았을때 프롬프트에 conda install -c plotly plotly=5.8.0   입력
+
+    df4 = pd.read_csv('data2/prog_languages_data.csv',index_col=0)
+    st.dataframe(df4)
+
+    # plotly의 pie 차트
+    fig1 = px.pie(df4,names='lang',values='Sum', title='각 언어별 파이차트')
+    st.plotly_chart(fig1)
+
+    # plotly의 bar 차트
+
+    df4_sorted = df4.sort_values('Sum',ascending=False)
+    fig2 = px.bar(df4_sorted,x='lang',y='Sum')
+    st.plotly_chart(fig2)
 
 
 
